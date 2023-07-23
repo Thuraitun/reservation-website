@@ -8,11 +8,13 @@
     <div class="py-12">
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div class="flex p-2 m-2">
-                <a href="{{ route('admin.table.index') }}" class="px-4 py-2 text-white bg-indigo-500 rounded-lg hover:bg-indigo-700">Back</a>
+                <a href="{{ route('admin.tables.index') }}" class="px-4 py-2 text-white bg-indigo-500 rounded-lg hover:bg-indigo-700">Back</a>
             </div>
             <div class="p-2 m-2">
                 <div class="flex content-center mt-10 space-y-8 divide-y divide-gray-200 md:flex-col">
-                    <form action="" enctype="multipart/form-data">
+                    <form action="{{ route('admin.tables.store') }}" method="post">
+                        @csrf
+
                         <div class="sm:col-span-6">
                             <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
                             <div class="mt-1">
@@ -20,16 +22,26 @@
                             </div>
                         </div>
                         <div class="sm:col-span-6">
-                            <label for="image" class="block text-sm font-medium text-gray-700">Image</label>
+                            <label for="gust_number" class="block text-sm font-medium text-gray-700">Gust</label>
                             <div class="mt-1">
-                                <input type="file" name="image" id="image" class="block w-full p-2 border border-gray-700 rounded-lg">
+                                <input type="number" name="gust_number" id="gust_number" class="block w-full rounded-lg">
                             </div>
                         </div>
                         <div class="sm:col-span-6">
-                            <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
-                            <div class="mt-1">
-                                <textarea name="description" id="description" cols="10" rows="5" class="block w-full rounded-lg"></textarea>
-                            </div>
+                            <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
+                            <select id="status" name="status" class="block w-full rounded-lg">
+                                @foreach (App\Enums\TableStatus::cases() as $status)
+                                     <option value="{{ $status->value }}">{{ $status->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="sm:col-span-6">
+                            <label for="location" class="block text-sm font-medium text-gray-700">Location</label>
+                            <select id="location" name="location" class="block w-full rounded-lg">
+                                @foreach (App\Enums\TableLocation::cases() as $location)
+                                     <option value="{{ $location->value }}">{{ $location->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="mt-6">
                             <button type="submit" class="px-6 py-2 text-white bg-indigo-500 rounded-lg hover:bg-indigo-700">Store</button>

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\CategoryStoreRequest;
 
 class CategoryController extends Controller
 {
@@ -28,9 +30,18 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CategoryStoreRequest $request)
     {
-        //
+        $image = time().'.'.$request->image->extension();
+        $request->image->storeAs('public/categories', $image);
+
+        Category::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'image'=> $image,
+        ]);
+
+        return redirect()->route('admin.categories.index');
     }
 
     /**
@@ -44,24 +55,47 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Category $category)
     {
-        //
+        return view('Admin.categories.edit', compact('category'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Category $category)
     {
-        //
+        $request->validate([
+            'name'=> 'required',
+            'description' => 'required',
+        ]);
+        $image = $request->image;
+
+        if($request->hasFile('image')) {
+            Storage::delete('public/categories/'. $category->image);
+
+            $image = time().'.'.$request->image->extension();
+            $request->image->storeAs('public/categories', $image);
+        };
+
+        $category->update([
+            'name' => $request->name,
+            'description' => $request->description,
+            'image' => $image,
+        ]);
+
+        return redirect()->route('admin.categories.index');
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Category $category)
     {
-        //
+        Storage::delete('public/categories/'. $category->image);
+        $category->delete();
+
+        return redirect()->route('admin.categories.index');
     }
 }

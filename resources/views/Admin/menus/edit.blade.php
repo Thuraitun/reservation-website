@@ -12,12 +12,13 @@
             </div>
             <div class="p-2">
                 <div class="flex content-center mt-4 space-y-8 divide-y divide-gray-200 md:flex-col">
-                    <form action="{{ route('admin.menus.store') }}" enctype="multipart/form-data" method="post">
+                    <form action="{{ route('admin.menus.update', $menu->id) }}" enctype="multipart/form-data" method="post">
                         @csrf
+                        @method('PUT')
                         <div class="sm:col-span-6">
                             <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
                             <div class="mt-1">
-                                <input type="text" name="name" id="name" class="w-full rounded-lg ">
+                                <input type="text" name="name" value="{{$menu->name}}" id="name" class="w-full rounded-lg ">
                             </div>
                         </div>
                         <div class="sm:col-span-6">
@@ -29,25 +30,25 @@
                         <div class="sm:col-span-6">
                             <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
                             <div class="mt-1">
-                                <textarea name="description" id="description" cols="10" rows="5" class="block w-full rounded-lg"></textarea>
+                                <textarea name="description" id="description" cols="10" rows="5" class="block w-full rounded-lg">{{ $menu->description }}</textarea>
                             </div>
                         </div>
                         <div class="sm:col-span-6">
                             <label for="categories" class="block text-sm font-medium text-gray-700">Category Name</label>
                             <select id="categories" name="categories[]" multiple class="block w-full rounded-lg">
                                 @foreach ($categories as $category)
-                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    <option value="{{ $category->id }}" @selected($menu->categories->contains($category))>{{ $category->name }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="sm:col-span-6">
                             <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
                             <div class="mt-1">
-                                <input type="number" name="price" id="price" class="block w-full p-2 border border-gray-700 rounded-lg">
+                                <input type="number" name="price" value="{{ $menu->price }}" id="price" class="block w-full p-2 border border-gray-700 rounded-lg">
                             </div>
                         </div>
                         <div class="mt-6">
-                            <button type="submit" class="px-6 py-2 text-white bg-indigo-500 rounded-lg hover:bg-indigo-700">Store</button>
+                            <button type="submit" class="px-6 py-2 text-white bg-indigo-500 rounded-lg hover:bg-indigo-700">Update</button>
                         </div>
                     </form>
                 </div>
