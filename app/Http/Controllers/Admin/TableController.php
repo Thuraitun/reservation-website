@@ -38,7 +38,7 @@ class TableController extends Controller
             'location' => $request->location,
         ]);
 
-        return redirect()->route('admin.tables.index');
+        return redirect()->route('admin.tables.index')->with('success', 'Table created successfully.');
     }
 
     /**
@@ -52,24 +52,28 @@ class TableController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Table $table)
     {
-        //
+        return view('Admin.tables.edit', compact('table'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(TableStoreRequest $request, Table $table)
     {
-        //
+        $table->update($request->validated());
+
+        return redirect()->route('admin.tables.index')->with('success', 'Table updated successfully.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Table $table)
     {
-        //
+        $table->delete();
+
+        return back()->with('danger', 'Table deleted successfully.');
     }
 }

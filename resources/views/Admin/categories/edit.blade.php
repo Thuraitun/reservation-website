@@ -12,7 +12,7 @@
             </div>
             <div class="p-2 m-2">
                 <div class="flex content-center mt-10 space-y-8 divide-y divide-gray-200 md:flex-col">
-                    
+
                     {{-- update fom --}}
                     <form action="{{ route('admin.categories.update', $category->id) }}" enctype="multipart/form-data" method="post">
                         @csrf
@@ -20,22 +20,31 @@
                         <div class="sm:col-span-6">
                             <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
                             <div class="mt-1">
-                                <input type="text" name="name" id="name" class="w-full rounded-lg " value="{{ $category->name }}">
+                                <input type="text" name="name" id="name" class="w-full rounded-lg @error('name') border-red-500 @enderror" value="{{ old('name',$category->name) }}">
+                                @error('name')
+                                    <div class="text-sm text-red-500">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                         <div class="sm:col-span-6">
                             <label for="image" class="block text-sm font-medium text-gray-700">Image</label>
-                            {{-- <div class="">
-                                <img src="{{ asset('catgories/'.$category->image) }}" alt="" class="w-32 h-24 rounded-lg">
-                            </div> --}}
+                            <div class="">
+                                <img src="{{asset('storage/categories/'.$category->image)}}" alt="" class="w-20 h-12 rounded-md">
+                            </div>
                             <div class="mt-1">
-                                <input type="file" name="image" id="image" class="block w-full p-2 border border-gray-700 rounded-lg">
+                                <input type="file" name="image" id="image" class="block w-full p-2 border border-gray-700 rounded-lg @error('image') border-red-500 @enderror">
+                                @error('image')
+                                    <div class="text-sm text-red-500">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                         <div class="sm:col-span-6">
                             <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
                             <div class="mt-1">
-                                <textarea name="description" id="description" cols="10" rows="5" class="block w-full rounded-lg">{{ $category->description }}</textarea>
+                                <textarea name="description" id="description" cols="10" rows="5" class="block w-full rounded-lg @error('description') border-red-500 @enderror">{{ old('decription',$category->description) }}</textarea>
+                                @error('description')
+                                    <div class="text-sm text-red-500">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                         <div class="mt-6">

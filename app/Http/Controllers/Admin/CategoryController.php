@@ -41,16 +41,9 @@ class CategoryController extends Controller
             'image'=> $image,
         ]);
 
-        return redirect()->route('admin.categories.index');
+        return redirect()->route('admin.categories.index')->with('success', 'Category created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -84,7 +77,7 @@ class CategoryController extends Controller
             'image' => $image,
         ]);
 
-        return redirect()->route('admin.categories.index');
+        return redirect()->route('admin.categories.index')->with('success', 'Category updated successfully.');
 
     }
 
@@ -94,8 +87,9 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         Storage::delete('public/categories/'. $category->image);
+        $category->menus()->detach();
         $category->delete();
 
-        return redirect()->route('admin.categories.index');
+        return redirect()->route('admin.categories.index')->with('danger', 'Category deleted successfully.');
     }
 }
