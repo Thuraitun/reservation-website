@@ -29,8 +29,8 @@
                                 @enderror
                             </select>
                         </div>
-                        <div class="flex justify-between mt-14 ">
-                            <a href="{{ route('reservations.step.one') }}" class="px-6 py-2 text-white bg-teal-400 rounded-lg hover:bg-teal-700">Previous</a>
+                        <div class="flex md:justify-between md:mt-14 md:flex-row flex-col space-y-3 md:space-y-0 mb-5 md:mb-0 mt-3 justify-center">
+                            <a href="{{ route('reservations.step.one') }}" class="px-6 py-2 text-white bg-teal-400 rounded-lg hover:bg-teal-700 text-center">Previous</a>
                             <button type="submit"
                                 class="px-6 py-2 text-white bg-teal-400 rounded-lg hover:bg-teal-700">Make Reservation</button>
                         </div>

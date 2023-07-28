@@ -46,7 +46,27 @@ class ReservationController extends Controller
     public function stepTwo(Request $request)
     {
         $reservation = $request->session()->get('reservation');
-        $tables = Table::where('status', TableStatus::Available)->get();
+        $res_table_ids = Reservation::orderBy('res_date')->get()->filter( function($value) use($reservation) {
+            return $value->res_date == $reservation->res_date;
+        })->pluck('table_id');
+
+        $tables = Table::where('status', TableStatus::Available)
+                ->where('gust_number', '>=' , $reservation->guest_number)
+                ->whereNotIn('id', $res_table_ids)->get();
         return view('reservations.step-two', compact('reservation', 'tables'));
+    }
+
+    public function storeStepTwo(Request $request)
+    {
+        $validated = $request->validate([
+            'table_id' => ['required'],
+        ]);
+
+        $reservation = $request->session()->get('reservation');
+        $reservation->fill($validated);
+        $reservation->save();
+        $request->session()->forget('reservation');
+
+        return to_route('thankyou');
     }
 }

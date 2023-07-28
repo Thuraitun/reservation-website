@@ -21,6 +21,7 @@ Route::get('/reservation/step-one', [FontendReservationContoller::class, 'stepOn
 Route::post('/reservation/step-one', [FontendReservationContoller::class, 'storeStepOne'])->name('reservations.store.step.one');
 Route::get('/reservation/step-two', [FontendReservationContoller::class, 'stepTwo'])->name('reservations.step.Two');
 Route::post('/reservation/step-two', [FontendReservationContoller::class, 'storeStepTwo'])->name('reservations.store.step.two');
+Route::get('/thankyou', [WelcomeController::class, 'thankyou'])->name('thankyou');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

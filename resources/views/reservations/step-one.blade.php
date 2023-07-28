@@ -40,7 +40,7 @@
                         </a>
                     </div> --}}
                     <div class="w-full my-4 bg-gray-200 rounded-full">
-                        <div class="w-[250px] p-1 text-xs leading-none text-center bg-teal-400 rounded-full text-white font-bold">Step one</div>
+                        <div class="md:w-[250px] p-1 text-xs leading-none text-center bg-teal-400 rounded-full text-white font-bold w-[150px]">Step one</div>
                     </div>
 
                     <form action="{{ route('reservations.store.step.one') }}" method="post">
